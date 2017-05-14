@@ -969,7 +969,7 @@ var ACDB_API = function(){
 		$( m_SELECTORS.clearSearch ).on('click', function(e){
 
 			e.preventDefault();
-			
+
 			$( m_SELECTORS.searchBox ).val('');
 			handleSearchKeyup();
 		});
@@ -1235,7 +1235,7 @@ var ACDB_API = function(){
 			}
 		}
 
-		return '';
+		return 'N/A';
 	}
 
 
@@ -1263,18 +1263,26 @@ var ACDB_API = function(){
 
 		for( var nl = 0; nl < m_ResultsPerPage; nl++ ){
 
-			var matchingItem = m_MatchingItems.sorted[ m_NumLoadedResults ];
+			var matchingItem = m_MatchingItems.sorted[ m_NumLoadedResults ],
+				iName = matchingItem[ 'name' ],
+				iImagePath = m_PathRoot + m_ImageDir + matchingItem[ 'image' ].replace('items/', ''),
+				iPurchaseValue = matchingItem[ 'purchase_value' ],
+				iSellValue = matchingItem[ 'sell_value' ],
+				iObtainedFrom = matchingItem[ 'obtained_from' ],
+				iAppears = matchingItem[ 'catch_appearance' ],
+				iFashionTheme = matchingItem[ 'clothing_style' ],
+				iInteriorTheme = matchingItem[ 'hha_theme' ];
 
 			resultsHtml += populateTemplate( m_TEMPLATE_HTML.resultItem, {
-				tvItemName: matchingItem[ 'name' ],
+				tvItemName: iName.length > 0 ? iName : 'N/A',
 				tvItemCategory: getCategoryById( matchingItem[ 'category_id' ] ),
-				tvItemImgSrc: m_PathRoot + m_ImageDir + matchingItem[ 'image' ].replace('items/', ''),
-				tvItemBuyPrice: matchingItem[ 'purchase_value' ],
-				tvItemSellPrice: matchingItem[ 'sell_value' ],
-				tvItemObtainedFrom: matchingItem[ 'obtained_from' ],
-				tvItemAppears: matchingItem[ 'catch_appearance' ],
-				tvItemFashionTheme: matchingItem[ 'clothing_style' ],
-				tvItemInteriorTheme: matchingItem[ 'hha_theme' ]
+				tvItemImgSrc: iImagePath.length > 0 ? iImagePath : 'N/A',
+				tvItemBuyPrice: iPurchaseValue.length > 0 ? iPurchaseValue : 'N/A',
+				tvItemSellPrice: iSellValue.length > 0 ? iSellValue : 'N/A',
+				tvItemObtainedFrom: iObtainedFrom.length > 0 ? iObtainedFrom : 'N/A',
+				tvItemAppears: iAppears.length > 0 ? iAppears : 'N/A',
+				tvItemFashionTheme: iFashionTheme.length > 0 ? iFashionTheme : 'N/A',
+				tvItemInteriorTheme: iInteriorTheme.length > 0 ? iInteriorTheme : 'N/A'
 			});
 
 			m_NumLoadedResults++;
@@ -1298,18 +1306,26 @@ var ACDB_API = function(){
 				break;
 			}
 
-			var matchingItem = m_MatchingItems.sorted[ mi ];
+			var matchingItem = m_MatchingItems.sorted[ mi ],
+				iName = matchingItem[ 'name' ],
+				iImagePath = m_PathRoot + m_ImageDir + matchingItem[ 'image' ].replace('items/', ''),
+				iPurchaseValue = matchingItem[ 'purchase_value' ],
+				iSellValue = matchingItem[ 'sell_value' ],
+				iObtainedFrom = matchingItem[ 'obtained_from' ],
+				iAppears = matchingItem[ 'catch_appearance' ],
+				iFashionTheme = matchingItem[ 'clothing_style' ],
+				iInteriorTheme = matchingItem[ 'hha_theme' ];
 
 			resultsHtml += populateTemplate( m_TEMPLATE_HTML.resultItem, {
-				tvItemName: matchingItem[ 'name' ],
+				tvItemName: iName.length > 0 ? iName : 'N/A',
 				tvItemCategory: getCategoryById( matchingItem[ 'category_id' ] ),
-				tvItemImgSrc: m_PathRoot + m_ImageDir + matchingItem[ 'image' ].replace('items/', ''),
-				tvItemBuyPrice: matchingItem[ 'purchase_value' ],
-				tvItemSellPrice: matchingItem[ 'sell_value' ],
-				tvItemObtainedFrom: matchingItem[ 'obtained_from' ],
-				tvItemAppears: matchingItem[ 'catch_appearance' ],
-				tvItemFashionTheme: matchingItem[ 'clothing_style' ],
-				tvItemInteriorTheme: matchingItem[ 'hha_theme' ]
+				tvItemImgSrc: iImagePath.length > 0 ? iImagePath : 'N/A',
+				tvItemBuyPrice: iPurchaseValue.length > 0 ? iPurchaseValue : 'N/A',
+				tvItemSellPrice: iSellValue.length > 0 ? iSellValue : 'N/A',
+				tvItemObtainedFrom: iObtainedFrom.length > 0 ? iObtainedFrom : 'N/A',
+				tvItemAppears: iAppears.length > 0 ? iAppears : 'N/A',
+				tvItemFashionTheme: iFashionTheme.length > 0 ? iFashionTheme : 'N/A',
+				tvItemInteriorTheme: iInteriorTheme.length > 0 ? iInteriorTheme : 'N/A'
 			});
 
 			m_NumLoadedResults++;
