@@ -968,6 +968,8 @@ var ACDB_API = function(){
 		// Clear search box
 		$( m_SELECTORS.clearSearch ).on('click', function(e){
 
+			e.preventDefault();
+			
 			$( m_SELECTORS.searchBox ).val('');
 			handleSearchKeyup();
 		});
@@ -994,17 +996,23 @@ var ACDB_API = function(){
 		// Clear filter boxes
 		$( m_SELECTORS.clearFilterLocation ).on('click', function(e){
 
+			e.preventDefault();
+
 			$( m_SELECTORS.filterLocation ).val('');
 			handleSearchKeyup();
 		});
 
 		$( m_SELECTORS.clearFilterInteriorTheme ).on('click', function(e){
 
+			e.preventDefault();
+
 			$( m_SELECTORS.filterInteriorTheme ).val('');
 			handleSearchKeyup();
 		});
 
 		$( m_SELECTORS.clearFilterFashionTheme ).on('click', function(e){
+
+			e.preventDefault();
 
 			$( m_SELECTORS.filterFashionTheme ).val('');
 			handleSearchKeyup();
