@@ -1,0 +1,821 @@
+[
+	{
+		"id": "1",
+		"name": "Alpine",
+		"slug": "alpine",
+		"group": "furniture-series"
+	},
+	{
+		"id": "2",
+		"name": "Astro",
+		"slug": "astro",
+		"group": "furniture-series"
+	},
+	{
+		"id": "3",
+		"name": "Balloon",
+		"slug": "balloon",
+		"group": "furniture-series"
+	},
+	{
+		"id": "4",
+		"name": "Blue",
+		"slug": "blue",
+		"group": "furniture-series"
+	},
+	{
+		"id": "5",
+		"name": "Cabana",
+		"slug": "cabana",
+		"group": "furniture-series"
+	},
+	{
+		"id": "6",
+		"name": "Cabin",
+		"slug": "cabin",
+		"group": "furniture-series"
+	},
+	{
+		"id": "7",
+		"name": "Card",
+		"slug": "card",
+		"group": "furniture-series"
+	},
+	{
+		"id": "8",
+		"name": "Classic",
+		"slug": "classic",
+		"group": "furniture-series"
+	},
+	{
+		"id": "9",
+		"name": "Egg",
+		"slug": "egg",
+		"group": "furniture-series"
+	},
+	{
+		"id": "10",
+		"name": "Exotic",
+		"slug": "exotic",
+		"group": "furniture-series"
+	},
+	{
+		"id": "11",
+		"name": "Fish",
+		"slug": "fish",
+		"group": "furniture-series"
+	},
+	{
+		"id": "12",
+		"name": "Golden",
+		"slug": "golden",
+		"group": "furniture-series"
+	},
+	{
+		"id": "13",
+		"name": "Gorgeous",
+		"slug": "gorgeous",
+		"group": "furniture-series"
+	},
+	{
+		"id": "14",
+		"name": "Gracie",
+		"slug": "gracie",
+		"group": "furniture-series"
+	},
+	{
+		"id": "15",
+		"name": "Green",
+		"slug": "green",
+		"group": "furniture-series"
+	},
+	{
+		"id": "16",
+		"name": "Harvest",
+		"slug": "harvest",
+		"group": "furniture-series"
+	},
+	{
+		"id": "17",
+		"name": "Ice",
+		"slug": "ice",
+		"group": "furniture-series"
+	},
+	{
+		"id": "18",
+		"name": "Insect",
+		"slug": "insect",
+		"group": "furniture-series"
+	},
+	{
+		"id": "19",
+		"name": "Jingle",
+		"slug": "jingle",
+		"group": "furniture-series"
+	},
+	{
+		"id": "20",
+		"name": "Kiddie",
+		"slug": "kiddie",
+		"group": "furniture-series"
+	},
+	{
+		"id": "21",
+		"name": "Lovely",
+		"slug": "lovely",
+		"group": "furniture-series"
+	},
+	{
+		"id": "22",
+		"name": "Mermaid",
+		"slug": "mermaid",
+		"group": "furniture-series"
+	},
+	{
+		"id": "23",
+		"name": "Minimalist",
+		"slug": "minimalist",
+		"group": "furniture-series"
+	},
+	{
+		"id": "24",
+		"name": "Modern",
+		"slug": "modern",
+		"group": "furniture-series"
+	},
+	{
+		"id": "25",
+		"name": "Modern Wood",
+		"slug": "modern-wood",
+		"group": "furniture-series"
+	},
+	{
+		"id": "26",
+		"name": "Mush",
+		"slug": "mush",
+		"group": "furniture-series"
+	},
+	{
+		"id": "27",
+		"name": "Pavé",
+		"slug": "pave",
+		"group": "furniture-series"
+	},
+	{
+		"id": "28",
+		"name": "Polka-dot",
+		"slug": "polka-dot",
+		"group": "furniture-series"
+	},
+	{
+		"id": "29",
+		"name": "Princess",
+		"slug": "princess",
+		"group": "furniture-series"
+	},
+	{
+		"id": "30",
+		"name": "Ranch",
+		"slug": "ranch",
+		"group": "furniture-series"
+	},
+	{
+		"id": "31",
+		"name": "Regal",
+		"slug": "regal",
+		"group": "furniture-series"
+	},
+	{
+		"id": "32",
+		"name": "Robo",
+		"slug": "robo",
+		"group": "furniture-series"
+	},
+	{
+		"id": "33",
+		"name": "Rococo",
+		"slug": "rococo",
+		"group": "furniture-series"
+	},
+	{
+		"id": "34",
+		"name": "Sleek",
+		"slug": "sleek",
+		"group": "furniture-series"
+	},
+	{
+		"id": "35",
+		"name": "Sloppy",
+		"slug": "sloppy",
+		"group": "furniture-series"
+	},
+	{
+		"id": "36",
+		"name": "Snowman",
+		"slug": "snowman",
+		"group": "furniture-series"
+	},
+	{
+		"id": "37",
+		"name": "Spooky",
+		"slug": "spooky",
+		"group": "furniture-series"
+	},
+	{
+		"id": "38",
+		"name": "Stripe",
+		"slug": "stripe",
+		"group": "furniture-series"
+	},
+	{
+		"id": "39",
+		"name": "Sweets",
+		"slug": "sweets",
+		"group": "furniture-series"
+	},
+	{
+		"id": "40",
+		"name": "Boxing",
+		"slug": "boxing",
+		"group": "furniture-theme"
+	},
+	{
+		"id": "41",
+		"name": "Classroom",
+		"slug": "classroom",
+		"group": "furniture-theme"
+	},
+	{
+		"id": "42",
+		"name": "Construction",
+		"slug": "construction",
+		"group": "furniture-theme"
+	},
+	{
+		"id": "43",
+		"name": "Mad Scientist",
+		"slug": "mad-scientist",
+		"group": "furniture-theme"
+	},
+	{
+		"id": "44",
+		"name": "Mario",
+		"slug": "mario",
+		"group": "furniture-theme"
+	},
+	{
+		"id": "45",
+		"name": "Mossy Garden",
+		"slug": "mossy-garden",
+		"group": "furniture-theme"
+	},
+	{
+		"id": "46",
+		"name": "Nursery",
+		"slug": "nursery",
+		"group": "furniture-theme"
+	},
+	{
+		"id": "47",
+		"name": "Pirate Ship",
+		"slug": "pirate-ship",
+		"group": "furniture-theme"
+	},
+	{
+		"id": "48",
+		"name": "Spa",
+		"slug": "spa",
+		"group": "furniture-theme"
+	},
+	{
+		"id": "49",
+		"name": "Space",
+		"slug": "space",
+		"group": "furniture-theme"
+	},
+	{
+		"id": "50",
+		"name": "Western",
+		"slug": "western",
+		"group": "furniture-theme"
+	},
+	{
+		"id": "51",
+		"name": "Apple",
+		"slug": "apple",
+		"group": "furniture-set"
+	},
+	{
+		"id": "52",
+		"name": "Bear",
+		"slug": "bear",
+		"group": "furniture-set"
+	},
+	{
+		"id": "53",
+		"name": "Bonsai",
+		"slug": "bonsai",
+		"group": "furniture-set"
+	},
+	{
+		"id": "54",
+		"name": "Cactus",
+		"slug": "cactus",
+		"group": "furniture-set"
+	},
+	{
+		"id": "55",
+		"name": "Café",
+		"slug": "cafe",
+		"group": "furniture-set"
+	},
+	{
+		"id": "56",
+		"name": "Chess",
+		"slug": "chess",
+		"group": "furniture-set"
+	},
+	{
+		"id": "57",
+		"name": "Citrus",
+		"slug": "citrus",
+		"group": "furniture-set"
+	},
+	{
+		"id": "58",
+		"name": "Creepy",
+		"slug": "creepy",
+		"group": "furniture-set"
+	},
+	{
+		"id": "59",
+		"name": "Dharma",
+		"slug": "dharma",
+		"group": "furniture-set"
+	},
+	{
+		"id": "60",
+		"name": "Dr.'s Office",
+		"slug": "drs-office",
+		"group": "furniture-set"
+	},
+	{
+		"id": "61",
+		"name": "Drum",
+		"slug": "drum",
+		"group": "furniture-set"
+	},
+	{
+		"id": "62",
+		"name": "Flower",
+		"slug": "flower",
+		"group": "furniture-set"
+	},
+	{
+		"id": "63",
+		"name": "Frog",
+		"slug": "frog",
+		"group": "furniture-set"
+	},
+	{
+		"id": "64",
+		"name": "Guitar",
+		"slug": "guitar",
+		"group": "furniture-set"
+	},
+	{
+		"id": "65",
+		"name": "Homework",
+		"slug": "homework",
+		"group": "furniture-set"
+	},
+	{
+		"id": "66",
+		"name": "House Plant",
+		"slug": "house-plant",
+		"group": "furniture-set"
+	},
+	{
+		"id": "67",
+		"name": "Lucky Cat",
+		"slug": "lucky-cat",
+		"group": "furniture-set"
+	},
+	{
+		"id": "68",
+		"name": "Museum",
+		"slug": "museum",
+		"group": "furniture-set"
+	},
+	{
+		"id": "69",
+		"name": "Nintendo",
+		"slug": "nintendo",
+		"group": "furniture-set"
+	},
+	{
+		"id": "70",
+		"name": "Office",
+		"slug": "office",
+		"group": "furniture-set"
+	},
+	{
+		"id": "71",
+		"name": "Panda",
+		"slug": "panda",
+		"group": "furniture-set"
+	},
+	{
+		"id": "72",
+		"name": "Pear",
+		"slug": "pear",
+		"group": "furniture-set"
+	},
+	{
+		"id": "73",
+		"name": "Pine",
+		"slug": "pine",
+		"group": "furniture-set"
+	},
+	{
+		"id": "74",
+		"name": "Pine Tree",
+		"slug": "pine-tree",
+		"group": "furniture-set"
+	},
+	{
+		"id": "75",
+		"name": "String Section",
+		"slug": "string-section",
+		"group": "furniture-set"
+	},
+	{
+		"id": "76",
+		"name": "Totem Pole",
+		"slug": "totem-pole",
+		"group": "furniture-set"
+	},
+	{
+		"id": "77",
+		"name": "Vase",
+		"slug": "vase",
+		"group": "furniture-set"
+	},
+	{
+		"id": "78",
+		"name": "Watermelon",
+		"slug": "watermelon",
+		"group": "furniture-set"
+	},
+	{
+		"id": "79",
+		"name": "Zen",
+		"slug": "zen",
+		"group": "furniture-set"
+	},
+	{
+		"id": "80",
+		"name": "Zen Garden",
+		"slug": "zen-garden",
+		"group": "furniture-set"
+	},
+	{
+		"id": "81",
+		"name": "Alpinist Outfit",
+		"slug": "alpinist-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "82",
+		"name": "Astronaut Outfit",
+		"slug": "astronaut-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "83",
+		"name": "Bear Outfit",
+		"slug": "bear-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "84",
+		"name": "Blue Superhero Outfit",
+		"slug": "blue-superhero-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "85",
+		"name": "Bounty Hunter Outfit",
+		"slug": "bounty-hunter-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "86",
+		"name": "Cat Outfit",
+		"slug": "cat-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "87",
+		"name": "Cavalier Outfit",
+		"slug": "cavalier-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "88",
+		"name": "Centurion Outfit",
+		"slug": "centurion-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "89",
+		"name": "Chef Outfit",
+		"slug": "chef-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "90",
+		"name": "Chief Outfit",
+		"slug": "chief-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "91",
+		"name": "Cowboy Outfit",
+		"slug": "cowboy-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "92",
+		"name": "Cyclist Outfit",
+		"slug": "cyclist-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "93",
+		"name": "Dancer Outfit",
+		"slug": "dancer-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "94",
+		"name": "Detective Outfit",
+		"slug": "detective-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "95",
+		"name": "Doctor Outfit",
+		"slug": "doctor-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "96",
+		"name": "Explorer Outfit",
+		"slug": "explorer-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "97",
+		"name": "Firefighter Outfit",
+		"slug": "firefighter-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "98",
+		"name": "Frog Outfit",
+		"slug": "frog-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "99",
+		"name": "Geisha Outfit",
+		"slug": "geisha-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "100",
+		"name": "Genie Outfit",
+		"slug": "genie-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "101",
+		"name": "Grape Outfit",
+		"slug": "grape-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "102",
+		"name": "Green Superhero Outfit",
+		"slug": "green-superhero-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "103",
+		"name": "Hero Outfit",
+		"slug": "hero-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "104",
+		"name": "Imperial Outfit",
+		"slug": "imperial-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "105",
+		"name": "Jester Outfit",
+		"slug": "jester-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "106",
+		"name": "Kappa Outfit",
+		"slug": "kappa-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "107",
+		"name": "King Outfit",
+		"slug": "king-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "108",
+		"name": "Kiwi Outfit",
+		"slug": "kiwi-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "109",
+		"name": "Knight Outfit",
+		"slug": "knight-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "110",
+		"name": "Melon Outfit",
+		"slug": "melon-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "111",
+		"name": "Milkmaid Outfit",
+		"slug": "milkmaid-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "112",
+		"name": "Mummy Outfit",
+		"slug": "mummy-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "113",
+		"name": "Ninja Outfit",
+		"slug": "ninja-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "114",
+		"name": "Pharaoh Outfit",
+		"slug": "pharaoh-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "115",
+		"name": "Pilot Outfit",
+		"slug": "pilot-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "116",
+		"name": "Pink Superheroine",
+		"slug": "pink-superheroine",
+		"group": "clothing"
+	},
+	{
+		"id": "117",
+		"name": "Pirate Outfit",
+		"slug": "pirate-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "118",
+		"name": "Police Officer Outfit",
+		"slug": "police-officer-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "119",
+		"name": "Pro Wrestler Outfit",
+		"slug": "pro-wrestler-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "120",
+		"name": "Rabbit Outfit",
+		"slug": "rabbit-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "121",
+		"name": "Racer Outfit",
+		"slug": "racer-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "122",
+		"name": "Red Superhero Outfit",
+		"slug": "red-superhero-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "123",
+		"name": "Sailor Outfit",
+		"slug": "sailor-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "124",
+		"name": "Samurai Outfit",
+		"slug": "samurai-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "125",
+		"name": "Scholar Outfit",
+		"slug": "scholar-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "126",
+		"name": "Soldier Outfit",
+		"slug": "soldier-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "127",
+		"name": "Spa Patron Outfit",
+		"slug": "spa-patron-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "128",
+		"name": "Strawberry Outfit",
+		"slug": "strawberry-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "129",
+		"name": "Tangerine Outfit",
+		"slug": "tangerine-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "130",
+		"name": "Vaquero Outfit",
+		"slug": "vaquero-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "131",
+		"name": "Viking Outfit",
+		"slug": "viking-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "132",
+		"name": "Watermelon Outfit",
+		"slug": "watermelon-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "133",
+		"name": "Wedding Outfit",
+		"slug": "wedding-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "134",
+		"name": "Witch Outfit",
+		"slug": "witch-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "135",
+		"name": "Worker Outfit",
+		"slug": "worker-outfit",
+		"group": "clothing"
+	},
+	{
+		"id": "136",
+		"name": "Welcome amiibo Update",
+		"slug": "welcome",
+		"group": "other"
+	},
+	{
+		"id": ""
+	}
+]

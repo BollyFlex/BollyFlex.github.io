@@ -1,0 +1,135 @@
+[
+	{
+		"id": "1",
+		"name": "Furniture",
+		"slug": "furniture"
+	},
+	{
+		"id": "2",
+		"name": "Bottoms",
+		"slug": "bottoms"
+	},
+	{
+		"id": "3",
+		"name": "Wallpaper",
+		"slug": "wallpaper"
+	},
+	{
+		"id": "4",
+		"name": "Flooring",
+		"slug": "flooring"
+	},
+	{
+		"id": "5",
+		"name": "Fish",
+		"slug": "fish"
+	},
+	{
+		"id": "6",
+		"name": "Shoes",
+		"slug": "shoes"
+	},
+	{
+		"id": "7",
+		"name": "Seashells",
+		"slug": "seashells"
+	},
+	{
+		"id": "8",
+		"name": "Umbrellas",
+		"slug": "umbrellas"
+	},
+	{
+		"id": "9",
+		"name": "Hats",
+		"slug": "hats"
+	},
+	{
+		"id": "10",
+		"name": "Gyroids",
+		"slug": "gyroids"
+	},
+	{
+		"id": "11",
+		"name": "Trees",
+		"slug": "trees"
+	},
+	{
+		"id": "12",
+		"name": "Mushrooms",
+		"slug": "mushrooms"
+	},
+	{
+		"id": "13",
+		"name": "Tools",
+		"slug": "tools"
+	},
+	{
+		"id": "14",
+		"name": "Fossils",
+		"slug": "fossils"
+	},
+	{
+		"id": "15",
+		"name": "Fruit",
+		"slug": "fruit"
+	},
+	{
+		"id": "16",
+		"name": "Art",
+		"slug": "art"
+	},
+	{
+		"id": "17",
+		"name": "Bugs",
+		"slug": "bugs"
+	},
+	{
+		"id": "18",
+		"name": "Dresses",
+		"slug": "dresses"
+	},
+	{
+		"id": "19",
+		"name": "Tops",
+		"slug": "tops"
+	},
+	{
+		"id": "20",
+		"name": "Accessories",
+		"slug": "accessories"
+	},
+	{
+		"id": "21",
+		"name": "Music",
+		"slug": "music"
+	},
+	{
+		"id": "22",
+		"name": "Ore",
+		"slug": "ore"
+	},
+	{
+		"id": "23",
+		"name": "Stationery",
+		"slug": "stationery"
+	},
+	{
+		"id": "24",
+		"name": "Socks",
+		"slug": "socks"
+	},
+	{
+		"id": "25",
+		"name": "Balloons",
+		"slug": "balloons"
+	},
+	{
+		"id": "26",
+		"name": "Flowers",
+		"slug": "flowers"
+	},
+	{
+		"id": ""
+	}
+]
