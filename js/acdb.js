@@ -899,6 +899,8 @@ var ACDB_API = function(){
 
 	function handleListItemGroupClick( $this, e ){
 
+		e.preventDefault();
+
 		$( m_SELECTORS.groupItem ).removeClass( m_MODIFIER_CLASSES.selected );
 		$this.addClass( m_MODIFIER_CLASSES.selected );
 
@@ -909,6 +911,8 @@ var ACDB_API = function(){
 
 
 	function handleListItemCategoryClick( $this, e ){
+
+		e.preventDefault();
 
 		$( m_SELECTORS.categoryItem ).removeClass( m_MODIFIER_CLASSES.selected );
 		$this.addClass( m_MODIFIER_CLASSES.selected );
@@ -926,11 +930,15 @@ var ACDB_API = function(){
 
 	function handleLightboxOpenClick( e ){
 
+		e.preventDefault();
+
 		$( m_SELECTORS.lightbox ).addClass( m_MODIFIER_CLASSES.active );
 	}
 
 
 	function handleLightboxCloseClick( e ){
+
+		e.preventDefault();
 
 		$( m_SELECTORS.lightbox ).removeClass( m_MODIFIER_CLASSES.active );
 	}
