@@ -727,8 +727,6 @@ var ACDB_API = function(){
 				"name": "Welcome amiibo Update",
 				"slug": "welcome",
 				"group": "other"
-			},{
-				"id": ""
 			}
 		],
 		items: null
@@ -738,6 +736,11 @@ var ACDB_API = function(){
 		m_ItemDataPath = 'data/items.json',
 		m_ImageDir = 'data/images/',
 		m_PathRoot = '',
+		m_InitialNumResults = 24,
+		m_ResultsPerPage = 12,
+		m_ScrollDebounceMS = 100,
+		m_LazyLoadOffsetPx = 1000,
+		m_NumLoadedResults = 0,
 		m_TEMPLATE_REGEX = /{{([^}}]+)?}}/g,
 		m_TEMPLATE_TAGS = {
 		    opening: '{{',
@@ -820,7 +823,9 @@ var ACDB_API = function(){
 			categoryItem: '[data-category-item]',
 			resultsList: '#acdb-list-results',
 			loadingOverlay: '#acdb-results-loading',
-			lightbox: '#help-info'
+			lightbox: '#help-info',
+			readoutDisplayedResults: '#acdb-readout-displayed-results',
+			readoutTotalResults: '#acdb-readout-total-results'
 		},
 		m_MODIFIER_CLASSES = {
 			selected: 'is--selected',
@@ -829,7 +834,8 @@ var ACDB_API = function(){
 		m_SearchDelay = 250,
 		m_MatchingItems = {
 			nameExact: [],
-			namePartial: []
+			namePartial: [],
+			sorted: []
 		};
 
 
@@ -1039,6 +1045,19 @@ var ACDB_API = function(){
 
 			handleLightboxCloseClick( e );
 		});
+
+		// Window scroll (for lazy-load)
+		var $wnd = $(window),
+			$resultsList = $( m_SELECTORS.resultsList );
+
+		$wnd.on('scroll', debounce( function(){
+
+			if( $wnd.scrollTop() + $wnd.height() > $resultsList.offset().top + $resultsList.outerHeight( true ) - m_LazyLoadOffsetPx ){
+
+				lazyLoadResults();
+			}
+
+		}, m_ScrollDebounceMS ));
 	}
 
 
@@ -1084,6 +1103,12 @@ var ACDB_API = function(){
 			});
 		}
 
+		// Add sets
+		groupsHtml += populateTemplate( m_TEMPLATE_HTML.groupItem, {
+			tvListItemText: 'sets',
+			tvGroupId: '-2'
+		});
+
 		$( m_SELECTORS.listGroup ).html( groupsHtml );
 
 		// Select first item by default
@@ -1096,7 +1121,7 @@ var ACDB_API = function(){
 		// For each category in the selected group
 		var selectedGroupName = $( m_SELECTORS.groupItem ).filter( '.' + m_MODIFIER_CLASSES.selected ).eq(0).attr( 'data-group-item-id' );
 
-		if( !m_DATA.groups.hasOwnProperty( selectedGroupName ) && selectedGroupName !== '-1' ){
+		if( !m_DATA.groups.hasOwnProperty( selectedGroupName ) && selectedGroupName !== '-1' && selectedGroupName !== '-2' ){
 
 			console.log('ERROR: selectedGroupName "' + selectedGroupName + '" not found in groups data');
 			return;
@@ -1110,6 +1135,7 @@ var ACDB_API = function(){
 			tvGroupId: '-1'
 		});
 
+		// All
 		if( selectedGroupName === '-1' ){
 
 			for( var groupKey in m_DATA.groups ){
@@ -1129,6 +1155,21 @@ var ACDB_API = function(){
 				}
 			}
 
+		// Sets
+		}else if( selectedGroupName === '-2' ){
+
+			// Populate each set item as a category item
+			for( var s = 0; s < m_DATA.sets.length; s++ ){
+
+				var set = m_DATA.sets[ s ];
+
+				categoriesHtml += populateTemplate( m_TEMPLATE_HTML.categoryItem, {
+					tvListItemText: set.name,
+					tvCategoryId: set.id
+				});
+			}
+
+		// Other groups
 		}else{
 
 			var selectedGroup = m_DATA.groups[ selectedGroupName ];
@@ -1196,30 +1237,25 @@ var ACDB_API = function(){
 	}
 
 
-	function populateSearchResults(){
+	function updateResultStatReadouts(){
 
-		var resultsHtml = '';
+		$( m_SELECTORS.readoutDisplayedResults ).text( m_NumLoadedResults );
+		$( m_SELECTORS.readoutTotalResults ).text( m_MatchingItems.sorted.length );
+	}
 
-		for( var ne = 0; ne < m_MatchingItems.nameExact.length; ne++ ){
 
-			var matchingItem = m_MatchingItems.nameExact[ ne ];
+	function lazyLoadResults(){
 
-			resultsHtml += populateTemplate( m_TEMPLATE_HTML.resultItem, {
-				tvItemName: matchingItem[ 'name' ],
-				tvItemCategory: getCategoryById( matchingItem[ 'category_id' ] ),
-				tvItemImgSrc: m_PathRoot + m_ImageDir + matchingItem[ 'image' ].replace('items/', ''),
-				tvItemBuyPrice: matchingItem[ 'purchase_value' ],
-				tvItemSellPrice: matchingItem[ 'sell_value' ],
-				tvItemObtainedFrom: matchingItem[ 'obtained_from' ],
-				tvItemAppears: matchingItem[ 'catch_appearance' ],
-				tvItemFashionTheme: matchingItem[ 'clothing_style' ],
-				tvItemInteriorTheme: matchingItem[ 'hha_theme' ]
-			});
+		if( m_NumLoadedResults >= m_MatchingItems.sorted.length ){
+			return;
 		}
 
-		for( var np = 0; np < m_MatchingItems.namePartial.length; np++ ){
+		// Beginning at m_NumLoadedResults, append m_ResultsPerPage more sorted items into the results UI
+		var resultsHtml = '';
 
-			var matchingItem = m_MatchingItems.namePartial[ np ];
+		for( var nl = 0; nl < m_ResultsPerPage; nl++ ){
+
+			var matchingItem = m_MatchingItems.sorted[ m_NumLoadedResults ];
 
 			resultsHtml += populateTemplate( m_TEMPLATE_HTML.resultItem, {
 				tvItemName: matchingItem[ 'name' ],
@@ -1232,9 +1268,47 @@ var ACDB_API = function(){
 				tvItemFashionTheme: matchingItem[ 'clothing_style' ],
 				tvItemInteriorTheme: matchingItem[ 'hha_theme' ]
 			});
+
+			m_NumLoadedResults++;
+		}
+
+		$( m_SELECTORS.resultsList ).append( resultsHtml );
+		updateResultStatReadouts();
+	}
+
+
+	function populateSearchResults(){
+
+		m_NumLoadedResults = 0;
+
+		// Populate m_InitialNumResults results from the sorted results list into the results UI
+		var resultsHtml = '';
+
+		for( var mi = 0; mi < m_MatchingItems.sorted.length; mi++ ){
+
+			if( m_NumLoadedResults > m_InitialNumResults ){
+				break;
+			}
+
+			var matchingItem = m_MatchingItems.sorted[ mi ];
+
+			resultsHtml += populateTemplate( m_TEMPLATE_HTML.resultItem, {
+				tvItemName: matchingItem[ 'name' ],
+				tvItemCategory: getCategoryById( matchingItem[ 'category_id' ] ),
+				tvItemImgSrc: m_PathRoot + m_ImageDir + matchingItem[ 'image' ].replace('items/', ''),
+				tvItemBuyPrice: matchingItem[ 'purchase_value' ],
+				tvItemSellPrice: matchingItem[ 'sell_value' ],
+				tvItemObtainedFrom: matchingItem[ 'obtained_from' ],
+				tvItemAppears: matchingItem[ 'catch_appearance' ],
+				tvItemFashionTheme: matchingItem[ 'clothing_style' ],
+				tvItemInteriorTheme: matchingItem[ 'hha_theme' ]
+			});
+
+			m_NumLoadedResults++;
 		}
 
 		$( m_SELECTORS.resultsList ).html( resultsHtml );
+		updateResultStatReadouts();
 	}
 
 
@@ -1307,110 +1381,110 @@ var ACDB_API = function(){
 					// - 'complete word matches' - split term and item name into words, if any match exactly, add to array
 				}
 			}
+		}
 
-			// Filter by location
-			if( location.length > 0 ){
+		// Filter by location
+		if( location.length > 0 ){
 
-				var locationRegex = new RegExp( escapeRegExp(location), 'g' );
-				var nameExactTemp = [];
-				var namePartialTemp = [];
+			var locationRegex = new RegExp( escapeRegExp(location), 'g' );
+			var nameExactTemp = [];
+			var namePartialTemp = [];
 
-				for( var mi = 0; mi < m_MatchingItems.nameExact.length; mi++ ){
+			for( var mi = 0; mi < m_MatchingItems.nameExact.length; mi++ ){
 
-					var matchingItem = m_MatchingItems.nameExact[ mi ];
-					var matchingItemLocation = matchingItem[ 'obtained_from' ].toLowerCase();
+				var matchingItem = m_MatchingItems.nameExact[ mi ];
+				var matchingItemLocation = matchingItem[ 'obtained_from' ].toLowerCase();
 
-					if( matchingItemLocation.match( locationRegex ) !== null ){
+				if( matchingItemLocation.match( locationRegex ) !== null ){
 
-						nameExactTemp.push( matchingItem );
-					}
+					nameExactTemp.push( matchingItem );
 				}
-
-				m_MatchingItems.nameExact = nameExactTemp;
-
-				for( var mi = 0; mi < m_MatchingItems.namePartial.length; mi++ ){
-
-					var matchingItem = m_MatchingItems.namePartial[ mi ];
-					var matchingItemLocation = matchingItem[ 'obtained_from' ].toLowerCase();
-
-					if( matchingItemLocation.match( locationRegex ) !== null ){
-
-						namePartialTemp.push( matchingItem );
-					}
-				}
-
-				m_MatchingItems.namePartial = namePartialTemp;
 			}
 
+			m_MatchingItems.nameExact = nameExactTemp;
 
-			// Filter by interior theme
-			if( interiorTheme.length > 0 ){
+			for( var mi = 0; mi < m_MatchingItems.namePartial.length; mi++ ){
 
-				var interiorThemeRegex = new RegExp( escapeRegExp(interiorTheme), 'g' );
-				var nameExactTemp = [];
-				var namePartialTemp = [];
+				var matchingItem = m_MatchingItems.namePartial[ mi ];
+				var matchingItemLocation = matchingItem[ 'obtained_from' ].toLowerCase();
 
-				for( var mi = 0; mi < m_MatchingItems.nameExact.length; mi++ ){
+				if( matchingItemLocation.match( locationRegex ) !== null ){
 
-					var matchingItem = m_MatchingItems.nameExact[ mi ];
-					var matchingItemInteriorTheme = matchingItem[ 'hha_theme' ].toLowerCase();
-
-					if( matchingItemInteriorTheme.match( interiorThemeRegex ) !== null ){
-
-						nameExactTemp.push( matchingItem );
-					}
+					namePartialTemp.push( matchingItem );
 				}
-
-				m_MatchingItems.nameExact = nameExactTemp;
-
-				for( var mi = 0; mi < m_MatchingItems.namePartial.length; mi++ ){
-
-					var matchingItem = m_MatchingItems.namePartial[ mi ];
-					var matchingItemInteriorTheme = matchingItem[ 'hha_theme' ].toLowerCase();
-
-					if( matchingItemInteriorTheme.match( interiorThemeRegex ) !== null ){
-
-						namePartialTemp.push( matchingItem );
-					}
-				}
-
-				m_MatchingItems.namePartial = namePartialTemp;
 			}
 
+			m_MatchingItems.namePartial = namePartialTemp;
+		}
 
-			// Filter by fashion theme
-			if( fashionTheme.length > 0 ){
 
-				var fashionThemeRegex = new RegExp( escapeRegExp(fashionTheme), 'g' );
-				var nameExactTemp = [];
-				var namePartialTemp = [];
+		// Filter by interior theme
+		if( interiorTheme.length > 0 ){
 
-				for( var mi = 0; mi < m_MatchingItems.nameExact.length; mi++ ){
+			var interiorThemeRegex = new RegExp( escapeRegExp(interiorTheme), 'g' );
+			var nameExactTemp = [];
+			var namePartialTemp = [];
 
-					var matchingItem = m_MatchingItems.nameExact[ mi ];
-					var matchingItemFashionTheme = matchingItem[ 'clothing_style' ].toLowerCase();
+			for( var mi = 0; mi < m_MatchingItems.nameExact.length; mi++ ){
 
-					if( matchingItemFashionTheme.match( fashionThemeRegex ) !== null ){
+				var matchingItem = m_MatchingItems.nameExact[ mi ];
+				var matchingItemInteriorTheme = matchingItem[ 'hha_theme' ].toLowerCase();
 
-						nameExactTemp.push( matchingItem );
-					}
+				if( matchingItemInteriorTheme.match( interiorThemeRegex ) !== null ){
+
+					nameExactTemp.push( matchingItem );
 				}
-
-				m_MatchingItems.nameExact = nameExactTemp;
-
-				for( var mi = 0; mi < m_MatchingItems.namePartial.length; mi++ ){
-
-					var matchingItem = m_MatchingItems.namePartial[ mi ];
-					var matchingItemFashionTheme = matchingItem[ 'clothing_style' ].toLowerCase();
-
-					if( matchingItemFashionTheme.match( fashionThemeRegex ) !== null ){
-
-						namePartialTemp.push( matchingItem );
-					}
-				}
-
-				m_MatchingItems.namePartial = namePartialTemp;
 			}
+
+			m_MatchingItems.nameExact = nameExactTemp;
+
+			for( var mi = 0; mi < m_MatchingItems.namePartial.length; mi++ ){
+
+				var matchingItem = m_MatchingItems.namePartial[ mi ];
+				var matchingItemInteriorTheme = matchingItem[ 'hha_theme' ].toLowerCase();
+
+				if( matchingItemInteriorTheme.match( interiorThemeRegex ) !== null ){
+
+					namePartialTemp.push( matchingItem );
+				}
+			}
+
+			m_MatchingItems.namePartial = namePartialTemp;
+		}
+
+
+		// Filter by fashion theme
+		if( fashionTheme.length > 0 ){
+
+			var fashionThemeRegex = new RegExp( escapeRegExp(fashionTheme), 'g' );
+			var nameExactTemp = [];
+			var namePartialTemp = [];
+
+			for( var mi = 0; mi < m_MatchingItems.nameExact.length; mi++ ){
+
+				var matchingItem = m_MatchingItems.nameExact[ mi ];
+				var matchingItemFashionTheme = matchingItem[ 'clothing_style' ].toLowerCase();
+
+				if( matchingItemFashionTheme.match( fashionThemeRegex ) !== null ){
+
+					nameExactTemp.push( matchingItem );
+				}
+			}
+
+			m_MatchingItems.nameExact = nameExactTemp;
+
+			for( var mi = 0; mi < m_MatchingItems.namePartial.length; mi++ ){
+
+				var matchingItem = m_MatchingItems.namePartial[ mi ];
+				var matchingItemFashionTheme = matchingItem[ 'clothing_style' ].toLowerCase();
+
+				if( matchingItemFashionTheme.match( fashionThemeRegex ) !== null ){
+
+					namePartialTemp.push( matchingItem );
+				}
+			}
+
+			m_MatchingItems.namePartial = namePartialTemp;
 		}
 
 		// Filter by category
@@ -1419,27 +1493,149 @@ var ACDB_API = function(){
 			var nameExactTemp = [];
 			var namePartialTemp = [];
 
-			// If category is "all", filter by group. Otherwise, group is implicit in the category being selectable.
+			// If category is "all", filter by group.
 			if( category === "all" ){
 
 				// If item category matches any category in the selected group
 				if( group.length > 0 && group !== "all" ){
 
-					var selectedGroup = m_DATA.groups[ group ];
+					// If sets are selected
+					if( group === "sets" ){
+
+						// keep items matching any set id
+						for( var s = 0; s < m_DATA.sets.length; s++ ){
+
+							var setId = m_DATA.sets[ s ].id;
+
+							for( var mi = 0; mi < m_MatchingItems.nameExact.length; mi++ ){
+
+								var matchingItem = m_MatchingItems.nameExact[ mi ];
+								var matchingItemSetId = matchingItem[ 'set_id' ];
+								
+								if( matchingItemSetId === setId ){
+
+									nameExactTemp.push( matchingItem );
+								}
+							}
+
+							
+
+							for( var mi = 0; mi < m_MatchingItems.namePartial.length; mi++ ){
+
+								var matchingItem = m_MatchingItems.namePartial[ mi ];
+								var matchingItemSetId = matchingItem[ 'set_id' ];
+
+								if( matchingItemSetId === setId ){
+
+									namePartialTemp.push( matchingItem );
+								}
+							}
+						}
+
+						m_MatchingItems.nameExact = nameExactTemp;
+						m_MatchingItems.namePartial = namePartialTemp;
+
+					// Otherwise (if a normal group is selected)
+					}else{
+
+						// keep items matching the selected category
+						var selectedGroup = m_DATA.groups[ group ];
+
+						for( var mi = 0; mi < m_MatchingItems.nameExact.length; mi++ ){
+
+							var matchingItem = m_MatchingItems.nameExact[ mi ];
+							var matchingItemCategory = getCategoryById( matchingItem[ 'category_id' ].toLowerCase() );
+							
+							for( var category in selectedGroup ){
+								if( selectedGroup.hasOwnProperty( category ) ){
+
+									if( matchingItemCategory === category ){
+
+										nameExactTemp.push( matchingItem );
+									}
+								}
+							}
+						}
+
+						m_MatchingItems.nameExact = nameExactTemp;
+
+						for( var mi = 0; mi < m_MatchingItems.namePartial.length; mi++ ){
+
+							var matchingItem = m_MatchingItems.namePartial[ mi ];
+							var matchingItemCategory = getCategoryById( matchingItem[ 'category_id' ].toLowerCase() );
+
+							for( var category in selectedGroup ){
+								if( selectedGroup.hasOwnProperty( category ) ){
+
+									if( matchingItemCategory === category ){
+
+										namePartialTemp.push( matchingItem );
+									}
+								}
+							}
+						}
+
+						m_MatchingItems.namePartial = namePartialTemp;
+					}
+				}
+
+			}else{
+
+				// If sets are selected
+				if( group === "sets" ){
+
+					// get selected set
+					var selectedSetID = null;
+
+					for( var s = 0; s < m_DATA.sets.length; s++ ){
+
+						var set = m_DATA.sets[ s ];
+
+						if( set.name === category ){
+
+							selectedSetId = set[ 'id' ];
+							break;
+						}
+					}
+
+					// keep items matching the selected set
+					for( var mi = 0; mi < m_MatchingItems.nameExact.length; mi++ ){
+
+						var matchingItem = m_MatchingItems.nameExact[ mi ];
+						var matchingItemSetId = matchingItem[ 'set_id' ];
+					
+						if( matchingItemSetId === selectedSetId ){
+
+							nameExactTemp.push( matchingItem );
+						}
+					}
+
+					m_MatchingItems.nameExact = nameExactTemp;
+
+					for( var mi = 0; mi < m_MatchingItems.namePartial.length; mi++ ){
+
+						var matchingItem = m_MatchingItems.namePartial[ mi ];
+						var matchingItemSetId = matchingItem[ 'set_id' ]
+
+						if( matchingItemSetId === selectedSetId ){
+
+							namePartialTemp.push( matchingItem );
+						}
+					}
+
+					m_MatchingItems.namePartial = namePartialTemp;
+
+				// If a normal group is selected
+				}else{
 
 					for( var mi = 0; mi < m_MatchingItems.nameExact.length; mi++ ){
 
 						var matchingItem = m_MatchingItems.nameExact[ mi ];
 						var matchingItemCategory = getCategoryById( matchingItem[ 'category_id' ].toLowerCase() );
-						
-						for( var category in selectedGroup ){
-							if( selectedGroup.hasOwnProperty( category ) ){
 
-								if( matchingItemCategory === category ){
+						if( matchingItemCategory === category ){
 
-									nameExactTemp.push( matchingItem );
-								}
-							}
+							nameExactTemp.push( matchingItem );
 						}
 					}
 
@@ -1450,66 +1646,37 @@ var ACDB_API = function(){
 						var matchingItem = m_MatchingItems.namePartial[ mi ];
 						var matchingItemCategory = getCategoryById( matchingItem[ 'category_id' ].toLowerCase() );
 
-						for( var category in selectedGroup ){
-							if( selectedGroup.hasOwnProperty( category ) ){
+						if( matchingItemCategory === category ){
 
-								if( matchingItemCategory === category ){
-
-									namePartialTemp.push( matchingItem );
-								}
-							}
+							namePartialTemp.push( matchingItem );
 						}
 					}
 
 					m_MatchingItems.namePartial = namePartialTemp;
 				}
-
-			}else{
-
-				for( var mi = 0; mi < m_MatchingItems.nameExact.length; mi++ ){
-
-					var matchingItem = m_MatchingItems.nameExact[ mi ];
-					var matchingItemCategory = getCategoryById( matchingItem[ 'category_id' ].toLowerCase() );
-
-					if( matchingItemCategory === category ){
-
-						nameExactTemp.push( matchingItem );
-					}
-				}
-
-				m_MatchingItems.nameExact = nameExactTemp;
-
-				for( var mi = 0; mi < m_MatchingItems.namePartial.length; mi++ ){
-
-					var matchingItem = m_MatchingItems.namePartial[ mi ];
-					var matchingItemCategory = getCategoryById( matchingItem[ 'category_id' ].toLowerCase() );
-
-					if( matchingItemCategory === category ){
-
-						namePartialTemp.push( matchingItem );
-					}
-				}
-
-				m_MatchingItems.namePartial = namePartialTemp;
 			}
 		}
 
 		// Sort (if sorting other than relevance is enabled)
 		var sortBy = $( m_SELECTORS.dropdownSort ).val().toLowerCase();
 
-		if( sortBy === "a - z (name)" ){
+		m_MatchingItems.sorted = m_MatchingItems.nameExact.concat( m_MatchingItems.namePartial );
 
-			var allMatchingItems = m_MatchingItems.nameExact.concat( m_MatchingItems.namePartial );
+		if( sortBy === "a - z" ){
 
-			allMatchingItems.sort(function(a, b){
-			    if(a[ 'name' ] < b[ 'name' ]) return -1;
-			    if(a[ 'name' ] > b[ 'name' ]) return 1;
-			    return 0;
+			m_MatchingItems.sorted.sort(function(a, b){
+
+				var nameA = a[ 'name' ].toLowerCase(),
+					nameB = b[ 'name' ].toLowerCase();
+
+				if( nameA < nameB ){
+					return -1;
+				}
+				if( nameA > nameB ){
+					return 1;
+				}
+				return 0;
 			});
-
-			m_MatchingItems.nameExact = allMatchingItems;
-			m_MatchingItems.namePartial = [];
-		
 		}
 
 		// Populate item template for each result and display it in the list
@@ -1565,8 +1732,8 @@ var ACDB_API = function(){
 		// Bind event listeners
 		bindListeners();
 
-		// // Perform default search - all items, all categories
-		// handleSearchKeyup('');
+		// Perform default search - all items, all categories
+		handleSearchKeyup('');
 	}
 
 

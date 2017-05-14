@@ -11,7 +11,8 @@
 	<script type="text/javascript">
 		$(document).ready(function(){
 
-			var pathRoot = 'https://BollyFlex.github.io/';
+			//var pathRoot = 'https://BollyFlex.github.io/';
+			var pathRoot = '/';
 
 			// Load script from github or local depending on dev or release env
 			$.getScript(pathRoot + 'js/acdb.js', function( data, status, jqxhr ){
@@ -77,6 +78,9 @@
 			</section>
 			<section class="acdb__results">
 				<div class="acdb__results-controls">
+					<div class="acdb__results-stats is--active">
+						Showing <span class="acdb__results-stats-readout" id="acdb-readout-displayed-results">0</span> of <span class="acdb__results-stats-readout" id="acdb-readout-total-results">0</span> matching items
+					</div>
 					<div class="acdb__panel">
 						<select class="acdb__input acdb__input--dropdown" id="acdb-sort-results">
 							<option class="acdb__input-item acdb__input-item--dropdown">Relevance</option>
