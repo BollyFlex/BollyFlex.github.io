@@ -7,11 +7,24 @@
 	<link rel="stylesheet" href="css/acdb.css"></head>
 <body>
 	<script src="js/jquery.js"></script>
-	<script src="js/acdb.js"></script>
+	<script src="https://use.fontawesome.com/73bd7d7b3a.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+
+			var pathRoot = 'http://BollyFlex.github.io/';
+
+			// Load script from github or local depending on dev or release env
+			$.getScript(pathRoot + 'js/acdb.js', function( data, status, jqxhr ){
+
+				ACDB_API.init(pathRoot);
+			});
+		});
+	</script>
 	<div class="acdb" id="acdb-container">
 		<div class="acdb__title-bar">
 			<h1 class="acdb__title">Sapling DB</h1>
-			<a class="acdb__help-button icon icon-info" href="#" id="acdb-help-button">
+			<a class="acdb__help-button" href="#" id="acdb-help-button">
+				<i class="fa fa-info-circle" aria-hidden="true"></i>
 				<span class="sr-only">Help</span>
 			</a>
 		</div>
@@ -19,26 +32,30 @@
 			<section class="acdb__controls">
 				<div class="acdb__panel acdb__panel--inset">
 					<input type="search" class="acdb__input acdb__input--search" id="acdb-input-search" placeholder="Item or keyword...">
-					<button class="acdb__input-actionbutton icon icon-cross" id="acdb-search-clear">
+					<button class="acdb__input-actionbutton" id="acdb-search-clear">
+						<i class="fa fa-times" aria-hidden="true"></i>
 						<span class="sr-only">Search</span>
 					</button>
 				</div>
 				<div class="acdb__panel acdb__panel--inset">
 					<input type="search" class="acdb__input acdb__input--search" id="acdb-input-filter-location" placeholder="Obtained from...">
-					<button class="acdb__input-actionbutton icon icon-cross" id="acdb-filter-location-clear">
-						<span class="sr-only">Filter by location</span>
+					<button class="acdb__input-actionbutton" id="acdb-filter-location-clear">
+						<i class="fa fa-times" aria-hidden="true"></i>
+						<span class="sr-only">Clear location filter</span>
 					</button>
 				</div>
 				<div class="acdb__panel acdb__panel--inset">
 					<input type="search" class="acdb__input acdb__input--search" id="acdb-input-filter-interiortheme" placeholder="Interior theme...">
-					<button class="acdb__input-actionbutton icon icon-cross" id="acdb-filter-interiortheme-clear">
-						<span class="sr-only">Filter by interior theme</span>
+					<button class="acdb__input-actionbutton" id="acdb-filter-interiortheme-clear">
+						<i class="fa fa-times" aria-hidden="true"></i>
+						<span class="sr-only">Clear interior theme filter</span>
 					</button>
 				</div>
 				<div class="acdb__panel acdb__panel--inset">
 					<input type="search" class="acdb__input acdb__input--search" id="acdb-input-filter-fashiontheme" placeholder="Fashion theme...">
-					<button class="acdb__input-actionbutton icon icon-cross" id="acdb-filter-fasiontheme-clear">
-						<span class="sr-only">Filter by fashion theme</span>
+					<button class="acdb__input-actionbutton" id="acdb-filter-fasiontheme-clear">
+						<i class="fa fa-times" aria-hidden="true"></i>
+						<span class="sr-only">Clear fashion theme filter</span>
 					</button>
 				</div>
 				<div class="acdb__panel acdb__panel--pad">
@@ -79,7 +96,8 @@
 		<div class="acdb__lightbox-content">
 			<h3 class="acdb__lightbox-heading">User guide</h3>
 			<p class="acdb__lightbox-paragraph">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-			<a class="acdb__lightbox-close icon icon-cross" href="#" id="acdb-lightbox-close">
+			<a class="acdb__lightbox-close" href="#" id="acdb-lightbox-close">
+				<i class="fa fa-times" aria-hidden="true"></i>
 				<span class="sr-only">Close</span>
 			</a>
 		</div>

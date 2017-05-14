@@ -5,7 +5,7 @@
 	Date: 		8th May 2017
 */
 
-(function(){
+var ACDB_API = function(){
 
 	var m_DATA = {
 		groups: {
@@ -735,8 +735,9 @@
 	};
 
 	var m_LoadedItems = false,
-		m_ItemDataPath = '../data/items.json',
+		m_ItemDataPath = 'data/items.json',
 		m_ImageDir = 'data/images/',
+		m_PathRoot = '',
 		m_TEMPLATE_REGEX = /{{([^}}]+)?}}/g,
 		m_TEMPLATE_TAGS = {
 		    opening: '{{',
@@ -896,38 +897,18 @@
 	}
 
 
-	function handleFilterLocationChange( e ){
-
-		console.log('handleFilterLocationChange');
-	}
-
-
-	function handleFilterInteriorThemeChange( e ){
-
-		console.log('handleFilterInteriorThemeChange');
-	}
-
-
-	function handleFilterFashionThemeChange( e ){
-
-		console.log('handleFilterFashionThemeChange');
-	}
-
-
 	function handleListItemGroupClick( $this, e ){
-
-		console.log('handleListItemGroupClick');
 
 		$( m_SELECTORS.groupItem ).removeClass( m_MODIFIER_CLASSES.selected );
 		$this.addClass( m_MODIFIER_CLASSES.selected );
 
+		populateCategories();
+		bindListeners();
 		handleSearchKeyup();
 	}
 
 
 	function handleListItemCategoryClick( $this, e ){
-
-		console.log('handleListItemCategoryClick');
 
 		$( m_SELECTORS.categoryItem ).removeClass( m_MODIFIER_CLASSES.selected );
 		$this.addClass( m_MODIFIER_CLASSES.selected );
@@ -938,23 +919,18 @@
 
 	function handleButtonResetClick( e ){
 
-		console.log('handleButtonResetClick');
-
-		init();
+		onDataLoaded();
+		handleSearchKeyup();
 	}
 
 
 	function handleLightboxOpenClick( e ){
-
-		console.log('handleLightboxOpenClick');
 
 		$( m_SELECTORS.lightbox ).addClass( m_MODIFIER_CLASSES.active );
 	}
 
 
 	function handleLightboxCloseClick( e ){
-
-		console.log('handleLightboxCloseClick');
 
 		$( m_SELECTORS.lightbox ).removeClass( m_MODIFIER_CLASSES.active );
 	}
@@ -1061,7 +1037,7 @@
 	function loadJsonData(){
 
 		$.ajax({
-			url: m_ItemDataPath,
+			url: m_PathRoot + m_ItemDataPath,
 			success: function( data ){
 				
 				m_DATA.items = data;
@@ -1206,8 +1182,9 @@
 	}
 
 
-	function escapeRegExp(str) {
-	  return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+	function escapeRegExp(str){
+
+		return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 	}
 
 
@@ -1222,7 +1199,7 @@
 			resultsHtml += populateTemplate( m_TEMPLATE_HTML.resultItem, {
 				tvItemName: matchingItem[ 'name' ],
 				tvItemCategory: getCategoryById( matchingItem[ 'category_id' ] ),
-				tvItemImgSrc: m_ImageDir + matchingItem[ 'image' ].replace('items/', ''),
+				tvItemImgSrc: m_PathRoot + m_ImageDir + matchingItem[ 'image' ].replace('items/', ''),
 				tvItemBuyPrice: matchingItem[ 'purchase_value' ],
 				tvItemSellPrice: matchingItem[ 'sell_value' ],
 				tvItemObtainedFrom: matchingItem[ 'obtained_from' ],
@@ -1239,7 +1216,7 @@
 			resultsHtml += populateTemplate( m_TEMPLATE_HTML.resultItem, {
 				tvItemName: matchingItem[ 'name' ],
 				tvItemCategory: getCategoryById( matchingItem[ 'category_id' ] ),
-				tvItemImgSrc: m_ImageDir + matchingItem[ 'image' ].replace('items/', ''),
+				tvItemImgSrc: m_PathRoot + m_ImageDir + matchingItem[ 'image' ].replace('items/', ''),
 				tvItemBuyPrice: matchingItem[ 'purchase_value' ],
 				tvItemSellPrice: matchingItem[ 'sell_value' ],
 				tvItemObtainedFrom: matchingItem[ 'obtained_from' ],
@@ -1267,6 +1244,7 @@
 		m_MatchingItems.nameExact = [];
 		m_MatchingItems.namePartial = [];
 
+		// If there is no search term, add all valid items
 		if( term.length === 0 ){
 
 			for( var i = 0; i < m_DATA.items.length; i++ ){
@@ -1281,6 +1259,7 @@
 				m_MatchingItems.nameExact.push( item );
 			}
 
+		// Otherwise add all items matching the search term
 		}else{
 
 			term = term.toLowerCase();
@@ -1544,7 +1523,9 @@
 	}
 
 
-	function init(){
+	function init( pathRoot ){
+
+		m_PathRoot = pathRoot;
 
 		// Read JSON data files into memory
 		loadJsonData();
@@ -1581,59 +1562,14 @@
 	}
 
 
-	$(document).ready(function(e){
+	// $(document).ready(function(e){
 
-		console.log('acdb init');
+	// 	console.log('acdb init');
 
-		init();
-	});
+	// 	init( '/' );
+	// });
 
-
-	// On search field keyup:
-		// If search term is >= minimum length (say 3 chars)
-			// Perform a search
-
-	// On filter dropdown item select:
-		// Perform a search
-
-	// On group item select:
-		// If the selected group is "sets"
-			// Populate all sets into the categories UI as category items
-		// Else
-			// Populate all categories present in the group (see data relationships) into the categories UI
-		// Perform a search
-
-	// On category item select:
-		// Perform a search
-
-	// Perform a search:
-		// Get the search term (if any), selected group and category, and any selected filters
-		// Search the item database for matching items:
-			// 
-		// Repopulate filter dropdown items to only those that apply to the selected group and category (debounce)
-
-	// Sort items:
-		// Options for sorting:
-			// Relevance (default)
-			// Alphabetical
-			// Location
-			// Any others? Ask ste
-
-	// Search logic:
-
-	// User enters search term (optional) and selects group, category and filters (all optional) and a search is performed
-	// If search term is present, item names are matched against it using the following logic, in priority order:
-		// - Item name contains all of search term
-		// - Item name contains part of search term
-		// - Item category contains all or part of search term
-		// - etc. for location, price, theme etc?
-
-	// Filters
-		// If more than one filter is active, results are filtered to items that match both filters (boolean AND)
-
-	// Selected class adding etc. for list buttons
-
-	// Lightbox open/close functionality
-
-
-}());
+	return {
+		init: init
+	};
+}();
